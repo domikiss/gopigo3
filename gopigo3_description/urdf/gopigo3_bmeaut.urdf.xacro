@@ -1,15 +1,15 @@
 <?xml version="1.0" ?>
 <robot name="gopigo3" xmlns:xacro="http://ros.org/wiki/xacro">
   <xacro:include filename="$(find gopigo3_description)/urdf/common_properties.xacro"/>
-  <xacro:include filename="$(find gopigo3_description)/urdf/gopigo3.gazebo.xacro"/>
+  <xacro:include filename="$(find gopigo3_description)/urdf/gopigo3_bmeaut.gazebo.xacro"/>
 
   <xacro:property name="CADscale" value="0.0012" />
 
   <!-- Which sensors to include -->
 <xacro:arg name="imu" default="false" />
 <!--xacro:property name="imu" value="true"/-->
-<xacro:arg name="distance"        default="true"/>
-<xacro:arg name="pi_camera"       default="true"/>
+<xacro:arg name="distance"        default="false"/>
+<xacro:arg name="pi_camera"       default="false"/>
 <xacro:arg name="lds"             default="true"/>
 
 <!-- ============ 'base_footprint' is the ground link ===================== -->
@@ -188,7 +188,7 @@
   </link>
 
 <!-- ============ imu_link xacro:macro ========================= -->
-  <xacro:macro name="imu_sensor">
+  <!-- <xacro:macro name="imu_sensor">
     <joint name="imu_joint" type="fixed">
       <parent link="base_link"/>
       <child link="imu_link"/>
@@ -204,29 +204,29 @@
         <material name="cyan"/>
       </visual>
     </link>
-  </xacro:macro>
+  </xacro:macro> -->
 <!-- ============ imu_link xacro:if ========================= -->
   <!-- if using a property (just inside this URDF file)-->
   <!--xacro:if value="${imu == 'true'}"-->
   <!--xacro:if value="${imu}"-->
 
   <!-- if using an argument (call from outside)-->
-  <xacro:if value="$(arg imu)">
+  <!-- <xacro:if value="$(arg imu)">
     <xacro:imu_sensor/>
-  </xacro:if>
+  </xacro:if> -->
 
 <!-- ============ Distance sensor ====================== -->
-  <xacro:macro name="distance_sensor">
+  <!-- <xacro:macro name="distance_sensor"> -->
   <!-- JOINT distance_sensor to base_link -->
-    <joint name="distance_sensor_joint" type="fixed">
+    <!-- <joint name="distance_sensor_joint" type="fixed">
       <axis xyz="0 1 0" />
       <origin xyz="0.065 0 0.025" rpy="0 0 0"/>
       <parent link="base_link"/>
       <child link="distance_sensor"/>
-    </joint>
+    </joint> -->
     
   <!-- Distance Sensor -->
-    <link name="distance_sensor">
+    <!-- <link name="distance_sensor">
       <visual>
         <origin xyz="0 0 0" rpy="1.57 0 1.57"/>
         <geometry>
@@ -239,14 +239,14 @@
   
   <xacro:if value="$(arg distance)">
     <xacro:distance_sensor/>
-  </xacro:if>
+  </xacro:if> -->
 
 <!-- ============ base_scan ======================== -->
   <xacro:macro name="lds_sensor">
     <joint name="scan_joint" type="fixed">
       <parent link="base_link"/>
       <child link="base_scan"/>
-      <origin xyz="-0.02 0 0.085" rpy="0 0 -1.57"/>
+      <origin xyz="0 0 0.085" rpy="0 0 -3.1416"/>
       <!--LDS** origin xyz="-0.02 0 0.07" rpy="0 0 -1.6"/-->
     </joint>
 
@@ -287,19 +287,19 @@
   </xacro:if>
 
 <!-- ============ Pi Camera ====================== -->
-  <xacro:macro name="pi_camera_sensor">
+  <!-- <xacro:macro name="pi_camera_sensor"> -->
   <!-- (LINKS) Pi Camera -->
-    <link name="camera_link">
+    <!-- <link name="camera_link">
       <visual>
         <origin xyz="0.005 0.000 0.013" rpy="0 1.570795 0" />
         <geometry>
             <mesh filename="package://gopigo3_description/meshes/sensors/piCamera.stl" scale="0.00125 0.00125 0.00125"/>
         </geometry>
         <material name="yellow"/>
-      </visual>
+      </visual> -->
 
     <!-- **** Pi Camera COLLISION & INERTIA **** -->
-      <collision>
+      <!-- <collision>
         <origin xyz="0.005 0 0.013" rpy="0 0 0"/>
         <geometry>
           <box size="0.015 0.030 0.027"/>
@@ -309,10 +309,10 @@
 
     <link name="camera_rgb_frame"/>
     
-    <link name="camera_rgb_optical_frame"/>
+    <link name="camera_rgb_optical_frame"/> -->
 
   <!-- (JOINTS) Pi Camera -->
-    <joint name="camera_joint" type="fixed">
+    <!-- <joint name="camera_joint" type="fixed">
       <origin xyz="0.04 0 0.04" rpy="0 0 0"/>
       <parent link="base_link"/>
       <child link="camera_link"/>
@@ -333,6 +333,6 @@
 
   <xacro:if value="$(arg pi_camera)">
     <xacro:pi_camera_sensor/>
-  </xacro:if>
+  </xacro:if> -->
 
 </robot>

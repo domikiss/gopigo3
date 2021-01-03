@@ -1,10 +1,16 @@
 <launch>
 
-  <arg name="model" default="gopigo3" />
+  <arg name="model" default="gopigo3_bmeaut" />
 
   <!-- Robot model URDF -->
   <arg name="urdf_file" default="$(find xacro)/xacro --inorder '$(find gopigo3_description)/urdf/$(arg model).urdf.xacro'" />
   <param name="robot_description" command="$(arg urdf_file)" />
+
+  <!-- Send joint values -->
+  <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher"/>
+  
+  <!-- Combine joint values to TF-->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
 
   <!-- Start YDLIDAR X4 -->
   <node name="ydlidar_node"  pkg="ydlidar"  type="ydlidar_node" output="screen" respawn="false" >
@@ -26,4 +32,5 @@
 
   <!-- Start differential drive -->
   <include file="$(find bringup_car)/launch/differential_drives.launch" />
+
 </launch>
