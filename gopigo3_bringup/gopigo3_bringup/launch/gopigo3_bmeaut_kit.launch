@@ -1,0 +1,29 @@
+<launch>
+
+  <arg name="model" default="gopigo3" />
+
+  <!-- Robot model URDF -->
+  <arg name="urdf_file" default="$(find xacro)/xacro --inorder '$(find gopigo3_description)/urdf/$(arg model).urdf.xacro'" />
+  <param name="robot_description" command="$(arg urdf_file)" />
+
+  <!-- Start YDLIDAR X4 -->
+  <node name="ydlidar_node"  pkg="ydlidar"  type="ydlidar_node" output="screen" respawn="false" >
+    <param name="port"         type="string" value="/dev/ydlidar"/>
+    <param name="baudrate"     type="int"    value="115200"/>
+    <param name="frame_id"     type="string" value="base_scan"/>
+    <param name="low_exposure"  type="bool"   value="false"/>
+    <param name="resolution_fixed"    type="bool"   value="true"/>
+    <param name="auto_reconnect"    type="bool"   value="true"/>
+    <param name="reversion"    type="bool"   value="false"/>
+    <param name="angle_min"    type="double" value="-180" />
+    <param name="angle_max"    type="double" value="180" />
+    <param name="range_min"    type="double" value="0.1" />
+    <param name="range_max"    type="double" value="16.0" />
+    <param name="ignore_array" type="string" value="" />
+    <param name="samp_rate"    type="int"    value="9"/>
+    <param name="frequency"    type="double" value="7"/>
+  </node>
+
+  <!-- Start differential drive -->
+  <include file="$(find bringup_car)/launch/differential_drives.launch" />
+</launch>
