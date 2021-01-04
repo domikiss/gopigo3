@@ -31,6 +31,6 @@
   </node>
 
   <!-- Start differential drive -->
-  <include file="$(find bringup_car)/launch/differential_drives.launch" />
+  <node name="differential_drive" pkg="bringup_car" type="gopigo3_bmeaut_driver.py" output="screen" />
 
 </launch>
